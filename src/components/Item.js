@@ -4,8 +4,20 @@ import Window from "./Window";
 import ITEM_TYPE from "../data/types";
 
 const Item = ({ item, index, moveItem, status }) => {
-    const ref = useRef(null);
 
+    const [editStatus, setEditStatus] = useState(false)
+    const [titleText, setTitleText] = useState(item.title)
+    const handleClick = () => {
+        setEditStatus(!editStatus)
+    }
+    const handleChange = (e) => {
+        console.log(e.target.value);
+        setTitleText(e.target.value)
+    }
+
+
+    const ref = useRef(null);
+console.log("item:", item);
     const [, drop] = useDrop({
         accept: ITEM_TYPE,
         hover(item, monitor) {
@@ -60,13 +72,17 @@ const Item = ({ item, index, moveItem, status }) => {
                 onClick={onOpen}
             >
                 <div className={"color-bar"} style={{ backgroundColor: status.color }}/>
-                <p className={"item-title"}>{item.content}</p>
+                <p className={"item-title"}>{item.title}</p>
+                <p>{item.content}</p>
                 <p className={"item-status"}>{item.icon}</p>
             </div>
             <Window
                 item={item}
                 onClose={onClose}
                 show={show}
+                handleChange={handleChange}
+                handleClick={handleClick}
+                editStatus={editStatus}
             />
         </>
     );

@@ -4,11 +4,8 @@ import Modal from "react-modal"
 Modal.setAppElement("#app")
 
 
-const Window = ({ show, onClose, item }) => {
-    const [titleText, setTitleText] = useState(item.title)
-    const handleClick = () => {
-        console.log("click");
-    }
+const Window = ({ show, onClose, item, handleChange, handleClick, editStatus }) => {
+    console.log(editStatus);
     return (
         <Modal
             isOpen={show}
@@ -17,8 +14,15 @@ const Window = ({ show, onClose, item }) => {
             overlayClassname={"overlay"}
         >
             <div className={"close-btn-ctn"}>
+                { !editStatus ?
                 <h1 style={{ flex: "1 90%"}} onClick={handleClick}>{item.title}</h1>
-                <button className={"close-btn"} onClick={onClose}>X</button>
+                : 
+                <div>
+                    <input type="text" placeholder={item.title} onChange={(e) => handleChange(e)}/> 
+                    <button className={"close-btn"} onClick={handleClick}>✔️</button>
+                </div>
+                }
+                <button className={"close-btn"} onClick={onClose}>❌</button>
             </div>
             <div>
                 <h2>Description</h2>
